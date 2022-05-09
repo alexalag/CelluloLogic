@@ -5,6 +5,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    private bool Lv1Complete = false;
     // Start is called before the first frame update
     void Start()
     {
