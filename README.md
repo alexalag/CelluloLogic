@@ -1,2 +1,0 @@
-# CelluloLogic
-Milestone 3
