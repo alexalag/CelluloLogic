@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    public Animator animator;
+    public AudioSource audioSource;
+
+    void Start()
+    {
+        Invoke("Flickering", 6f);
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
@@ -17,5 +25,11 @@ public class MainMenu : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void Flickering() {
+        audioSource.Play();
+        animator.SetBool("Clignoti", true);
+        Invoke("Flickering", 6f);
     }
 }
