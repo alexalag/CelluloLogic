@@ -7,10 +7,11 @@ public class MainMenu : MonoBehaviour
 {
     public Animator animator;
     public AudioSource audioSource;
+    public AudioClip audioClip;
 
     void Start()
     {
-        Invoke("Flickering", 6f);
+        Invoke("Flickering", 5f);
     }
 
     public void PlayGame()
@@ -28,8 +29,9 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Flickering() {
+        audioSource.clip = audioClip;
         audioSource.Play();
-        animator.SetBool("Clignoti", true);
-        Invoke("Flickering", 6f);
+        animator.SetTrigger("Clignoti");
+        Invoke("Flickering", 10f);
     }
 }
