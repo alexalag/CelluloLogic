@@ -4,7 +4,6 @@ using TMPro;
 
 public class TypeWriter : MonoBehaviour
 {
-    public float delay = 0.02f;
     private string fullText;
     public string currentText = "";
     public AudioSource audioSource;
@@ -17,6 +16,7 @@ public class TypeWriter : MonoBehaviour
         StartCoroutine(ShowText());
     }
 
+    // Affiche les lettres du texte une à une avec le son du typing
     IEnumerator ShowText() {
         for(int i = 0; i < fullText.Length; ++i) {
             if(!audioSource.isPlaying) {
@@ -27,7 +27,7 @@ public class TypeWriter : MonoBehaviour
             }
             currentText = fullText.Substring(0,i);
             GetComponent<TextMeshProUGUI>().text = currentText;
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(Constantes.delayTyping);
         }
         Constantes.writing = false;
     }

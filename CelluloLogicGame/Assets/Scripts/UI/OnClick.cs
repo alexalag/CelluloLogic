@@ -11,24 +11,20 @@ public class OnClick : MonoBehaviour
     private int currentStory = 0;
     public List<Animator> animators;
     private int currentAnimator = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+    // Attention : stories.Count == images.Count !
+    void Start() {
+        Debug.Assert(stories.Count == images.Count);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // Permet d'afficher le texte d'un seul coup et donc d'annuler l'animation en cliquant sur l'écran
     public void Click() {
         if(Constantes.writing) {
             Constantes.writing = false;
         } 
     }
 
+    // Permet de passer au prochain morceau de l'histoire
     public void Next() {
         if(currentStory < images.Count && 
             (currentStory == images.Count-1 || images[currentStory] != images[currentStory+1])) {
@@ -47,15 +43,18 @@ public class OnClick : MonoBehaviour
         
     }
 
-    public void StartGame() {
+    // Permet de passer directement à la suite du jeu en passant l'histoire
+    public void NextAll() {
         animators[currentAnimator].SetBool("Finish", true);
         Invoke("ChangeScene", 1f);
     }
 
+    // Permet de passer à la scene suivante
     public void ChangeScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
     }
 
+    // Fonction utilitaire de Next(), appelée uniquement quand l'image change en plus du texte
     private void NextChangeImage() {
         if(currentStory < stories.Count) {
             stories[currentStory].SetActive(false);
