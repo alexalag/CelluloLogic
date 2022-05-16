@@ -12,7 +12,7 @@ public class TypeWriter : MonoBehaviour
     void Start()
     {
         fullText = GetComponent<TextMeshProUGUI>().text;
-        Constantes.writing = true;
+        ConstantsUI.writing = true;
         StartCoroutine(ShowText());
     }
 
@@ -22,13 +22,13 @@ public class TypeWriter : MonoBehaviour
             if(!audioSource.isPlaying) {
                 audioSource.Play();
             }
-            if(!Constantes.writing) {
+            if(!ConstantsUI.writing) {
                 i = fullText.Length -1;
             }
             currentText = fullText.Substring(0,i);
             GetComponent<TextMeshProUGUI>().text = currentText;
-            yield return new WaitForSeconds(Constantes.delayTyping);
+            yield return new WaitForSeconds(ConstantsUI.delayTyping);
         }
-        Constantes.writing = false;
+        ConstantsUI.writing = false;
     }
 }

@@ -9,12 +9,37 @@ public enum InputKeyboard{
 }
 public class MoveWithKeyboardBehavior : AgentBehaviour
 {
-    public InputKeyboard inputKeyboard; 
+    public string CelluloName;
 
-    public override Steering GetSteering()
-    {
+    public void Start(){
+        gameObject.tag = "Player";
+        
+        // set the colors of the players
+        if(CelluloName == "True") {
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
+        } else {
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 0);
+        }
+    }
+
+    public override Steering GetSteering(){
+        //if(!Constants.isGameRun) return new Steering();
+        InputKeyboard inputKeyboard = CelluloName == "True" ? ConstantsGame.trueInput : ConstantsGame.falseInput;
+        float xAxis;
+        float zAxis;
+
+        if( inputKeyboard == 0 ) {
+            xAxis = Input.GetAxis ("Horizontal") ;
+            zAxis = Input.GetAxis ("Vertical") ;
+        } else {
+            xAxis = Input.GetAxis("HorizontalWASD") ;
+            zAxis = Input.GetAxis ("VerticalWASD") ;
+        }
+        
         Steering steering = new Steering();
-        //implement your code here
+        steering.linear = new Vector3(xAxis, 0, zAxis)*agent.maxAccel;
+        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel));
+        
         return steering;
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Constantes : MonoBehaviour {
+public class ConstantsUI : MonoBehaviour {
 
     // true si le jeu "est en train d'écrire"
     public static bool writing = false;

@@ -19,8 +19,8 @@ public class OnClick : MonoBehaviour
 
     // Permet d'afficher le texte d'un seul coup et donc d'annuler l'animation en cliquant sur l'écran
     public void Click() {
-        if(Constantes.writing) {
-            Constantes.writing = false;
+        if(ConstantsUI.writing) {
+            ConstantsUI.writing = false;
         } 
     }
 
