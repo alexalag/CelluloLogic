@@ -11,14 +11,30 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public string CelluloName;
 
+    public UnactiveCelluloBehavior unactiveCellulo;
+
+    private bool onStone;
+
     public void Start(){
         gameObject.tag = "Player";
+        onStone = false;
         
         // set the colors of the players
         if(CelluloName == "True") {
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
         } else {
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 0);
+        }
+    }
+
+    public void Update() {
+        if((unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject)) ||
+           (!unactiveCellulo.getIsDrawed() && unactiveCellulo.PlayerDistance(this.gameObject) < 4.5f)) {
+            onStone = true;
+            agent.MoveOnStone();
+        } else {
+            onStone = false;
+            agent.MoveOnIce();
         }
     }
 
@@ -37,9 +53,13 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         }
         
         Steering steering = new Steering();
-        steering.linear = new Vector3(xAxis, 0, zAxis)*agent.maxAccel;
-        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel));
+        if(onStone) {
+            steering.linear = new Vector3(xAxis, 8, zAxis)*agent.maxAccel;
+        } else {
+            steering.linear = new Vector3(xAxis, 0, zAxis)*agent.maxAccel;
+        }
         
+        steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel));
         return steering;
     }
 
