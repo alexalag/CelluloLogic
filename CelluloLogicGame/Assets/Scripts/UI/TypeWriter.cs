@@ -4,9 +4,10 @@ using TMPro;
 
 public class TypeWriter : MonoBehaviour
 {
-    public float delay = 0.01f;
+    public float delay = 0.02f;
     private string fullText;
     public string currentText = "";
+    public AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,9 @@ public class TypeWriter : MonoBehaviour
 
     IEnumerator ShowText() {
         for(int i = 0; i < fullText.Length; ++i) {
+            if(!audioSource.isPlaying) {
+                audioSource.Play();
+            }
             if(!Constantes.writing) {
                 i = fullText.Length -1;
             }

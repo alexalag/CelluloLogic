@@ -48,6 +48,11 @@ public class OnClick : MonoBehaviour
     }
 
     public void StartGame() {
+        animators[currentAnimator].SetBool("Finish", true);
+        Invoke("ChangeScene", 1f);
+    }
+
+    public void ChangeScene() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+ 1);
     }
 
@@ -62,7 +67,7 @@ public class OnClick : MonoBehaviour
         if(currentStory < images.Count) {
             images[currentStory].SetActive(true);
         } else {
-            StartGame();
+            ChangeScene();
         }
         if(currentStory < stories.Count) {
             stories[currentStory].SetActive(true);
