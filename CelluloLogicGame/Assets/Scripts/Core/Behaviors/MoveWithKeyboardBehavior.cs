@@ -39,7 +39,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     }
 
     public override Steering GetSteering(){
-        //if(!Constants.isGameRun) return new Steering();
+        if(!ConstantsGame.gameIsRunning) return new Steering();
         InputKeyboard inputKeyboard = CelluloName == "True" ? ConstantsGame.trueInput : ConstantsGame.falseInput;
         float xAxis;
         float zAxis;
@@ -54,7 +54,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         
         Steering steering = new Steering();
         if(onStone) {
-            steering.linear = new Vector3(xAxis, 8, zAxis)*agent.maxAccel;
+            steering.linear = new Vector3(xAxis, 7, zAxis)*agent.maxAccel;
         } else {
             steering.linear = new Vector3(xAxis, 0, zAxis)*agent.maxAccel;
         }

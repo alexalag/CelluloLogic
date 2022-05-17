@@ -22,7 +22,7 @@ public class UnactiveCelluloBehavior : AgentBehaviour {
         } else if(!isDrawed && PlayerIsClosed() && Input.GetKeyDown(KeyCode.Space)) {
             isDrawed = true;
         }
-        if(PlayerDistance(playerThatDraw) > 8f && isDrawed) {
+        if(PlayerDistance(playerThatDraw) > ConstantsGame.maxDistDrawCellulo && isDrawed) {
             isDrawed = false;
         }
     }
@@ -36,13 +36,13 @@ public class UnactiveCelluloBehavior : AgentBehaviour {
         steering.linear = new Vector3(0,0,0);
         Vector3 dist = (playerThatDraw.transform.position - this.transform.position).normalized * agent.maxAccel;
 
-        if(PlayerDistance(playerThatDraw) < 8f && PlayerDistance(playerThatDraw) > 5f && isDrawed) {
+        if(PlayerDistance(playerThatDraw) < ConstantsGame.maxDistDrawCellulo && PlayerDistance(playerThatDraw) > ConstantsGame.maxDistPushCellulo+0.1f && isDrawed) {
             steering.linear = dist;
         }
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject player in players) {
-            if(PlayerDistance(playerThatDraw) < 4.5f) {
+            if(PlayerDistance(playerThatDraw) < ConstantsGame.maxDistPushCellulo) {
                 steering.linear += -dist;
             }
         }
@@ -69,7 +69,7 @@ public class UnactiveCelluloBehavior : AgentBehaviour {
             }
         }
 
-        if(distance < 6f) {
+        if(distance < ConstantsGame.maxDistStartDrawingCellulo) {
             playerThatDraw = closest;
             return true;
         }

@@ -17,4 +17,12 @@ public class GameManager : MonoBehaviour
     {
                 
     }
+
+    public void StartGame() {
+        ConstantsGame.gameIsRunning = true;
+    }
+
+    public void Pause() {
+        ConstantsGame.gameIsRunning = false;
+    }
 }
