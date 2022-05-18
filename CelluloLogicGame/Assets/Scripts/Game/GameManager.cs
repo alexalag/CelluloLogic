@@ -6,6 +6,10 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     private bool Lv1Complete = false;
+    private int currentLevel = 1;
+    public GameObject menuLevelFinish;
+    public GameObject pauseButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +28,11 @@ public class GameManager : MonoBehaviour
 
     public void Pause() {
         ConstantsGame.gameIsRunning = false;
+    }
+
+    public void EndLevel() {
+        ConstantsGame.gameIsRunning = false;
+        menuLevelFinish.SetActive(true);
+        pauseButton.SetActive(false);
     }
 }
