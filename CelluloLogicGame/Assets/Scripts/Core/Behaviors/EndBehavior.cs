@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EndBehavior : MonoBehaviour
 {
+    private bool trueIsTriggerStay, falseIsTriggerStay;
 
     public GameManager gameManager;
 
@@ -16,13 +17,28 @@ public class EndBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(trueIsTriggerStay && falseIsTriggerStay) {
+            gameManager.EndLevel();
+        }
     }
 
     public void OnTriggerEnter(Collider player) {
         if(player.transform.parent.gameObject.tag == "Player") {
-            gameManager.EndLevel();
-            print("trigger");
+            if(player.transform.parent.gameObject.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True") {
+                trueIsTriggerStay = true;
+            } else {
+                falseIsTriggerStay =  true;
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider player) {
+        if(player.transform.parent.gameObject.tag == "Player") {
+            if(player.transform.parent.gameObject.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True") {
+                trueIsTriggerStay = false;
+            } else {
+                falseIsTriggerStay =  false;
+            }
         }
     }
 }
