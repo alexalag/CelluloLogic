@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class OnClick : MonoBehaviour
 {
 
+    private bool inChange;
     public List<GameObject> stories;
     public List<GameObject> images;
     private int currentStory = 0;
@@ -15,6 +16,7 @@ public class OnClick : MonoBehaviour
     // Attention : stories.Count == images.Count !
     void Start() {
         Debug.Assert(stories.Count == images.Count);
+        inChange = false;
     }
 
     // Permet d'afficher le texte d'un seul coup et donc d'annuler l'animation en cliquant sur l'écran
@@ -26,10 +28,12 @@ public class OnClick : MonoBehaviour
 
     // Permet de passer au prochain morceau de l'histoire
     public void Next() {
+        if(inChange) return;
         if(currentStory < images.Count && 
             (currentStory == images.Count-1 || images[currentStory] != images[currentStory+1])) {
             animators[currentAnimator].SetBool("Finish", true);
             ++currentAnimator;
+            inChange = true;
             Invoke("NextChangeImage", 1f);
         } else {
             if(currentStory < stories.Count) {
@@ -45,8 +49,10 @@ public class OnClick : MonoBehaviour
 
     // Permet de passer directement à la suite du jeu en passant l'histoire
     public void NextAll() {
+        if(inChange) return;
         animators[currentAnimator].SetBool("Finish", true);
         Invoke("ChangeScene", 1f);
+        inChange = true;
     }
 
     // Permet de passer à la scene suivante
@@ -71,5 +77,6 @@ public class OnClick : MonoBehaviour
         if(currentStory < stories.Count) {
             stories[currentStory].SetActive(true);
         }
+        inChange = false;
     }
 }
