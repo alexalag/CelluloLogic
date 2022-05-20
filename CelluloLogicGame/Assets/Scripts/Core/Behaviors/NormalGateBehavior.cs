@@ -5,6 +5,7 @@ using UnityEngine;
 public class NormalGateBehavior : AgentBehaviour
 {
     private GameManager gameManager;
+    public GameObject fil;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,10 @@ public class NormalGateBehavior : AgentBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (fil.GetComponent<FilsBehavior>().allume){
+            gameObject.active = false;
+        } else {
+            gameObject.active = true;
+        }
     }
 }

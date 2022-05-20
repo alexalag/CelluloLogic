@@ -10,6 +10,7 @@ public class UnactiveCelluloBehavior : AgentBehaviour {
     public GameObject HelpSignal;
 
     void Start(){
+        gameObject.tag = "Unactive";
         isDrawed = false;
         canBeDeplaced = false;
         GameObject[] players;
