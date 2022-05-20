@@ -2105,7 +2105,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Once upon a time, in Uniword,\ntwo cellulos named True and \nFalse were
-    taken prisoner by the evil NOMDUBOSS and forced\nto work in his factory\n\u201CInfernalGates\u201D.
+    taken prisoner by\nthe evil NOMDUBOSS and forced\nto work in his factory\n\u201CInfernalGates\u201D.
     \r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}

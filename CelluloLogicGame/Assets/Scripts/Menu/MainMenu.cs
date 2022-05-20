@@ -8,10 +8,12 @@ public class MainMenu : MonoBehaviour
     public Animator animator;
     public AudioSource audioSource;
     public AudioClip audioClip;
+    private bool gameQuit;
 
     void Start()
     {
         Invoke("Flickering", 5f);
+        gameQuit = false;
     }
 
     public void PlayGame()
@@ -20,8 +22,10 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-        Debug.Log("Quit!");
-        Application.Quit();
+        animator.SetTrigger("Quit");
+        gameQuit = true;
+        //Debug.Log("Quit!");
+        //Application.Quit();
     }
     public void BackToMenu()
     {
@@ -29,9 +33,11 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Flickering() {
-        audioSource.clip = audioClip;
-        audioSource.Play();
-        animator.SetTrigger("Clignoti");
-        Invoke("Flickering", 10f);
+        if(!gameQuit) {
+            audioSource.clip = audioClip;
+            audioSource.Play();
+            animator.SetTrigger("Clignoti");
+            Invoke("Flickering", 10f);
+        }
     }
 }

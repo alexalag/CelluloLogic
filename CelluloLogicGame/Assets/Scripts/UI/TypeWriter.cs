@@ -5,7 +5,7 @@ using TMPro;
 public class TypeWriter : MonoBehaviour
 {
     private string fullText;
-    public string currentText = "";
+    private string currentText = "";
     public AudioSource audioSource;
 
     // Start is called before the first frame update
