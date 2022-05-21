@@ -17,7 +17,7 @@ public class TheEndGateBehavior : AgentBehaviour
     void Update()
     {
         if (fil.GetComponent<FilsBehavior>().allume){
-            gameObject.active = false;
+            gameObject.SetActive(false);
         } 
     }
 }

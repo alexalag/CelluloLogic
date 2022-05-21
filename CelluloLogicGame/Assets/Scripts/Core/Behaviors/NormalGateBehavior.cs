@@ -17,9 +17,9 @@ public class NormalGateBehavior : AgentBehaviour
     void Update()
     {
         if (fil.GetComponent<FilsBehavior>().allume){
-            gameObject.active = false;
+            gameObject.SetActive(false);
         } else {
-            gameObject.active = true;
+            gameObject.SetActive(true);
         }
     }
 }
