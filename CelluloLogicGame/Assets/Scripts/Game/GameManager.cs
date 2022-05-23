@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
         menuLevelFinish.SetActive(true);
         pauseButton.SetActive(false);
         
-        if(timer.getTime() > timer.maxMinutes){
+        if(timer.getTime() > timer.maxMinutes*60){
             score = 0;
             endText.text = "You were too slow... Try again";
         } else {

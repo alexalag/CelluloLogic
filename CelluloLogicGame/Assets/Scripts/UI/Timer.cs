@@ -25,10 +25,9 @@ public class Timer : MonoBehaviour
 
     // Update is called once per frame
     public void Update() {
-        if(!ConstantsGame.gameIsRunning) {
-            initTimerValue = Time.time - time;
+        if(ConstantsGame.gameIsRunning) {
+            time += Time.deltaTime;
         }
-        time = Time.time - initTimerValue;
         timerText.text = string.Format("{0:00}:{1:00}", (int) time/60, (int) time%60);
         if(time >= maxMinutes*60) gameManager.EndLevel();
     }
