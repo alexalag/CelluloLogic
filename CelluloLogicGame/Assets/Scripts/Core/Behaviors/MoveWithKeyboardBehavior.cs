@@ -11,7 +11,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 {
     public string CelluloName;
 
-    public UnactiveCelluloBehavior unactiveCellulo;
+    public BotCelluloBehavior unactiveCellulo;
 
     private bool onStone;
 
@@ -28,8 +28,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     }
 
     public void Update() {
-        if((unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject)) ||
-           (!unactiveCellulo.getIsDrawed() && unactiveCellulo.PlayerDistance(this.gameObject) < 4.5f)) {
+        if((unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject))) {
             onStone = true;
             agent.MoveOnStone();
         } else {

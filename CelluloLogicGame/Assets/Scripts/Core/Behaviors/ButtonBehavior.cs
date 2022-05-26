@@ -21,7 +21,7 @@ public class ButtonBehavior : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.parent.gameObject.tag == "Player"|| other.transform.parent.gameObject.tag == "Unactive"){
+        if (other.transform.parent.gameObject.tag == "Player"|| other.transform.parent.gameObject.tag == "Bot"){
             foreach(GameObject fil in filsOut) {
                 fil.GetComponent<FilsBehavior>().allume = true;
             }
@@ -30,7 +30,7 @@ public class ButtonBehavior : MonoBehaviour
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.transform.parent.gameObject.tag == "Player" || other.transform.parent.gameObject.tag == "Unactive"){
+        if (other.transform.parent.gameObject.tag == "Player" || other.transform.parent.gameObject.tag == "Bot"){
             --numberOfCurrentCollider;
         }
         if (numberOfCurrentCollider <= 0) {

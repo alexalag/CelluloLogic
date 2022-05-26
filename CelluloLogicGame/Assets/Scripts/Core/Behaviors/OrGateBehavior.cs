@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AndGateBehavior : MonoBehaviour
+public class OrGateBehavior : MonoBehaviour
 {
     public List<GameObject> filsIn;
     public List<GameObject> filsOut;
@@ -15,12 +15,13 @@ public class AndGateBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool tousAlumes = true;
+        bool unAlume = false;
         foreach(GameObject fil in filsIn) {
-            if(!fil.GetComponent<FilsBehavior>().allume) tousAlumes = false;
+            if(fil.GetComponent<FilsBehavior>().allume) unAlume = true;
         }
         foreach(GameObject fil in filsOut) {
-            fil.GetComponent<FilsBehavior>().allume = tousAlumes;
+            fil.GetComponent<FilsBehavior>().allume = unAlume;
         }
+        
     }
 }

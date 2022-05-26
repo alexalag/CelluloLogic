@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class UnactiveCelluloBehavior : AgentBehaviour {
 
@@ -47,16 +48,21 @@ public class UnactiveCelluloBehavior : AgentBehaviour {
         Vector3 dist = (playerThatDraw.transform.position - this.transform.position).normalized * agent.maxAccel;
 
         if(Input.GetKey(KeyCode.Space)) {
-            if(PlayerDistance(playerThatDraw) < ConstantsGame.maxDistDrawCellulo && PlayerDistance(playerThatDraw) > ConstantsGame.maxDistPushCellulo+0.1f && isDrawed) {
+            if(PlayerDistance(playerThatDraw) < ConstantsGame.maxDistDrawCellulo && PlayerDistance(playerThatDraw) > ConstantsGame.maxDistPushCellulo+0.06f && isDrawed) {
                 steering.linear = dist;
+                //j'essaye comme je peus de le rendre fluide
+                steering.linear = new Vector3(steering.linear.x, 
+                    150f-((float) Math.Pow(((PlayerDistance(playerThatDraw)-ConstantsGame.maxDistPushCellulo+0.06f)/(ConstantsGame.maxDistDrawCellulo-ConstantsGame.maxDistPushCellulo+0.06f)),2f)*130f), 
+                    steering.linear.z);
             }
             if(PlayerDistance(playerThatDraw) < ConstantsGame.maxDistPushCellulo && isDrawed) {
                 steering.linear += -dist;
+                steering.linear = new Vector3(steering.linear.x, 120, steering.linear.z);
             }
         }
         
         steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel)) ;
-        
+
         return steering;
     }
 
