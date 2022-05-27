@@ -23,6 +23,7 @@ public class BotCelluloBehavior : AgentBehaviour
 
     // Pour le gardian
     public Direction direction;
+    public GameObject gameOverMenu;
     
     // Pour le unactiveCellulo
     private bool isDrawed;
@@ -51,11 +52,11 @@ public class BotCelluloBehavior : AgentBehaviour
     void Update() {
 
         //Unactive Cellulo
-        if(type == 0) {
+        if(type == BotType.unactiveCellulo) {
             if(isDrawed && !Input.GetKey(KeyCode.Space)) {
                 DisplayHelpSignal(false);
                 isDrawed = false;
-            } else if(!isDrawed && PlayerIsClosed()) {
+            } else if(!isDrawed && PlayerIsClosed(ConstantsGame.maxDistStartDrawingCellulo)) {
                 DisplayHelpSignal(true);
                 if(Input.GetKey(KeyCode.Space)) {
                     isDrawed = true;
@@ -67,13 +68,25 @@ public class BotCelluloBehavior : AgentBehaviour
                 isDrawed = false;
             }
         }
+
+        //gardian
+        if(type == BotType.gardian)
+        {
+        }
         
     }
 
     public override Steering GetSteering(){
-        /*if(!Constants.isGameRun) {
+        if(!ConstantsGame.gameIsRunning) {
+            if (type == BotType.gardian)
+            {
+                if (PlayerIsVisible())
+                {
+                    SeTourneVersPlayer();
+                }
+            }
             return new Steering();
-        }*/
+        }
 
         Steering steering = new Steering();
         steering.linear = new Vector3(0,0,0);
@@ -99,6 +112,11 @@ public class BotCelluloBehavior : AgentBehaviour
         // Gardian
         if(type == BotType.gardian) {
             Vector3 pos = this.transform.position;
+            if (PlayerIsVisible())
+            {
+                SeTourneVersPlayer();
+                AttraperPlayer();
+            }
             switch (direction)
             {
                 case Direction.DROITE:
@@ -106,7 +124,14 @@ public class BotCelluloBehavior : AgentBehaviour
                         steering.linear = new Vector3(2f, 0, 0);
                     } else {
                         steering.linear = new Vector3(0, 0, 0);
-                        this.direction = Direction.HAUT;
+                        if (transform.eulerAngles.y >= 0 && transform.eulerAngles.y <= 350)
+                        {
+                            transform.Rotate(new Vector3(0, -2f, 0));
+                        }
+                        else
+                        {
+                            this.direction = Direction.HAUT;
+                        }
                     }
                     break;
                 case Direction.HAUT:
@@ -114,7 +139,13 @@ public class BotCelluloBehavior : AgentBehaviour
                         steering.linear = new Vector3(0, 0, 2f);
                     } else {
                         steering.linear = new Vector3(0, 0, 0);
-                        this.direction = Direction.GAUCHE;
+                        if (transform.eulerAngles.y >= 270 || transform.eulerAngles.y <= 260)
+                        {
+                            transform.Rotate(new Vector3(0, -2f, 0));
+                        } else
+                        {
+                            this.direction = Direction.GAUCHE;
+                        }
                     }
                     break;
                 case Direction.GAUCHE:
@@ -122,7 +153,14 @@ public class BotCelluloBehavior : AgentBehaviour
                         steering.linear = new Vector3(-2f, 0, 0);
                     } else {
                         steering.linear = new Vector3(0, 0, 0);
-                        this.direction = Direction.BAS;
+                        if (transform.eulerAngles.y >= 180 || transform.eulerAngles.y <= 170)
+                        {
+                            transform.Rotate(new Vector3(0, -2f, 0));
+                        }
+                        else
+                        {
+                            this.direction = Direction.BAS;
+                        }
                     }
                     break;
                 case Direction.BAS:
@@ -130,7 +168,14 @@ public class BotCelluloBehavior : AgentBehaviour
                         steering.linear = new Vector3(0, 0, -2f);
                     } else {
                         steering.linear = new Vector3(0, 0, 0);
-                        this.direction = Direction.DROITE;
+                        if (transform.eulerAngles.y >= 90 || transform.eulerAngles.y <= 80)
+                        {
+                            transform.Rotate(new Vector3(0, -2f, 0));
+                        }
+                        else
+                        {
+                            this.direction = Direction.DROITE;
+                        }
                     }
                     break;
                 default:
@@ -143,7 +188,36 @@ public class BotCelluloBehavior : AgentBehaviour
         return steering;
     }
 
-    public bool PlayerIsClosed() {
+    public bool PlayerIsVisible()
+    {
+        if(PlayerIsClosed(4.5f))
+        {
+            return true;
+        }
+        Vector3 dist = (playerThatDraw.transform.position - this.transform.position);
+        float angle = (float) Math.Atan((dist.z / dist.x));
+        bool memeDirection = (direction == Direction.DROITE && dist.x > 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
+            (direction == Direction.HAUT && dist.z > 0 && Math.Abs(dist.x) < Math.Abs(dist.z)) ||
+            (direction == Direction.GAUCHE && dist.x < 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
+            (direction == Direction.BAS && dist.z < 0 && Math.Abs(dist.x) < Math.Abs(dist.z));
+        if (angle <= ConstantsGame.ANGLE/2 && memeDirection)
+        {
+            RaycastHit hit;
+            Physics.Raycast(this.transform.position, dist, out hit);
+            return hit.transform.tag == "Player";
+        }
+        return false;
+    }
+
+    public void SeTourneVersPlayer()
+    {
+        direction = Direction.AUCUNE;
+        Vector3 playerDirection = (playerThatDraw.transform.position - this.transform.position);
+        Quaternion lookRotation = Quaternion.LookRotation(playerDirection);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * ConstantsGame.rotationSpeed);
+    }
+
+    public bool PlayerIsClosed(float dist) {
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");
         GameObject closest = null;
@@ -159,7 +233,7 @@ public class BotCelluloBehavior : AgentBehaviour
             }
         }
 
-        if(distance < ConstantsGame.maxDistStartDrawingCellulo) {
+        if(distance < dist) {
             playerThatDraw = closest;
             canBeDeplaced = true;
             return true;
@@ -185,5 +259,11 @@ public class BotCelluloBehavior : AgentBehaviour
 
     public void DisplayHelpSignal(bool display) {
         HelpSignal.SetActive(display);
+    }
+
+    public void AttraperPlayer()
+    {
+        ConstantsGame.gameIsRunning = false;
+        gameOverMenu.SetActive(true);
     }
 }
