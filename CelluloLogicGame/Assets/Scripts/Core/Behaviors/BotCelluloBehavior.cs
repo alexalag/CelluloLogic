@@ -6,11 +6,13 @@ using System;
 public class BotCelluloBehavior : AgentBehaviour
 {
     
+    // Le type du bot qui définit son comportement
     public enum BotType{
         unactiveCellulo = 0, 
         gardian = 1
     }
 
+    // La direction dans laquelle il se déplace, si il se déplace
     public enum Direction{
         HAUT = 0,
         GAUCHE = 1, 

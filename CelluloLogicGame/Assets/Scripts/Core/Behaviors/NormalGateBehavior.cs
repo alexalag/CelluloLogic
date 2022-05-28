@@ -20,7 +20,6 @@ public class NormalGateBehavior : MonoBehaviour
     {
         if(startOpened)
         {
-            print(fil.GetComponent<FilsBehavior>().allume);
             animator.SetTrigger("Instant Open");
             animator2.SetTrigger("Instant Open");
         }

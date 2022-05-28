@@ -17,7 +17,6 @@ public class StartBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(trueIsTriggerStay || falseIsTriggerStay);
         if (!trueIsTriggerStay && !falseIsTriggerStay)
         {
             fil.allume = false;

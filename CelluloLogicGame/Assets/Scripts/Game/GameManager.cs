@@ -21,12 +21,15 @@ public class GameManager : MonoBehaviour
     //camera
     private const float speedCamera = 0.05f;
     private Vector3 level1posCamera;
-    private Vector3 intervalCamera = new Vector3(28f, 0, 0);
+    private Vector3 intervalInterLevel = new Vector3(28f, 0, 0);
 
     //Bot
     public BotCelluloBehavior botBehavior;
     public List<Vector3> startPosBotPerLevel;
     public List<BotCelluloBehavior.BotType> botTypePerLevel;
+
+    //Map Cellulo Manager
+    public GameObject mapCelluloManager;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +46,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // la camera change de place toute seule à chaque level
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalCamera, speedCamera);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalInterLevel, speedCamera);
     }
 
     public void StartGame() {
@@ -110,6 +113,19 @@ public class GameManager : MonoBehaviour
             botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1];
             botBehavior.type = botTypePerLevel[currentLevel - 1];
             botBehavior.NewLevel();
+
+            // On change la position de map Cellulo Manager pour pas que les cellulos sortent de la map
+            mapCelluloManager.transform.Translate(intervalInterLevel);
+            GameObject[] players;
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach(GameObject player in players)
+            {
+                player.transform.Translate(-intervalInterLevel);
+            }
+            botBehavior.transform.Translate(-intervalInterLevel);
+
+            // On réinitialise le timer
+            timer.InitTimer();
 
             // On relance le jeu
             ConstantsGame.gameIsRunning = true;

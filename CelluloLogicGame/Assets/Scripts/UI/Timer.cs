@@ -18,7 +18,7 @@ public class Timer : MonoBehaviour
 
     // Start is called before the first frame update
     public void Start() {
-        time = 0f;
+        InitTimer();
         timerText = GetComponent<Text>();
         timerText.text = string.Format("{0:00}:{1:00}", 0, 0);
     }
@@ -30,5 +30,10 @@ public class Timer : MonoBehaviour
         }
         timerText.text = string.Format("{0:00}:{1:00}", (int) time/60, (int) time%60);
         if(time >= maxMinutes*60) gameManager.EndLevel();
+    }
+
+    public void InitTimer()
+    {
+        time = 0f;
     }
 }
