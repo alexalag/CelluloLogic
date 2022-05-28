@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    private bool Lv1Complete = false;
-    private int currentLevel = 1;
+    //private bool Lv1Complete = false; => on en a pas besoin normalement
     public Text scoreText;
     public Text endText;
     private int score;
@@ -15,16 +14,36 @@ public class GameManager : MonoBehaviour
     public GameObject menuLevelFinish;
     public GameObject pauseButton;
 
+    //levels
+    private int currentLevel;
+    public List<GameObject> levels;
+
+    //camera
+    private const float speedCamera = 0.05f;
+    private Vector3 level1posCamera;
+    private Vector3 intervalCamera = new Vector3(28f, 0, 0);
+
+    //Bot
+    public BotCelluloBehavior botBehavior;
+    public List<Vector3> startPosBotPerLevel;
+    public List<BotCelluloBehavior.BotType> botTypePerLevel;
+
     // Start is called before the first frame update
     void Start()
     {
+        currentLevel = 1;
         score = 0;
+        level1posCamera = Camera.main.transform.position;
+        // initialisation du bot
+        botBehavior.gameObject.transform.position = startPosBotPerLevel[0];
+        botBehavior.type = botTypePerLevel[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-                
+        // la camera change de place toute seule à chaque level
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalCamera, speedCamera);
     }
 
     public void StartGame() {
@@ -72,6 +91,30 @@ public class GameManager : MonoBehaviour
         
         int malus = Mathf.Min(0, (int)((levelTime - timer.getTime())*mult_factor));
         return levelScore + malus;
+    }
+
+    public void NextLevel()
+    {
+        menuLevelFinish.SetActive(false);
+
+        // si on a pas encore fait tous les levels
+        if(currentLevel < levels.Count)
+        {
+            ++currentLevel;
+
+            // On désactive le level précédent et active le nouveau level
+            levels[currentLevel - 2].SetActive(false);
+            levels[currentLevel - 1].SetActive(true);
+
+            // On met le bot à la bonne position et avec le bon type
+            botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1];
+            botBehavior.type = botTypePerLevel[currentLevel - 1];
+            botBehavior.NewLevel();
+
+            // On relance le jeu
+            ConstantsGame.gameIsRunning = true;
+        }
+
     }
 }
 

@@ -5,7 +5,7 @@ using System;
 
 public class BotCelluloBehavior : AgentBehaviour
 {
-
+    
     public enum BotType{
         unactiveCellulo = 0, 
         gardian = 1
@@ -24,6 +24,7 @@ public class BotCelluloBehavior : AgentBehaviour
     // Pour le gardian
     public Direction direction;
     public GameObject gameOverMenu;
+    private Light lampeTorche;
     
     // Pour le unactiveCellulo
     private bool isDrawed;
@@ -34,19 +35,12 @@ public class BotCelluloBehavior : AgentBehaviour
     void Start(){
         gameObject.tag = "Bot";
 
-        isDrawed = false;
-        canBeDeplaced = false;
         GameObject[] players;
         players = GameObject.FindGameObjectsWithTag("Player");
         playerThatDraw = players[0];
+        lampeTorche = gameObject.GetComponentInChildren<Light>();
 
-        // set the colors of the Cellulo
-        if(type == 0) {
-            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black , 0);
-        } else {
-            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red , 0);
-        }
-        
+        NewLevel();
     }
 
     void Update() {
@@ -194,17 +188,28 @@ public class BotCelluloBehavior : AgentBehaviour
         {
             return true;
         }
-        Vector3 dist = (playerThatDraw.transform.position - this.transform.position);
-        float angle = (float) Math.Atan((dist.z / dist.x));
-        bool memeDirection = (direction == Direction.DROITE && dist.x > 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
-            (direction == Direction.HAUT && dist.z > 0 && Math.Abs(dist.x) < Math.Abs(dist.z)) ||
-            (direction == Direction.GAUCHE && dist.x < 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
-            (direction == Direction.BAS && dist.z < 0 && Math.Abs(dist.x) < Math.Abs(dist.z));
-        if (angle <= ConstantsGame.ANGLE/2 && memeDirection)
+
+        // On récupère tous les joueurs
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach(GameObject player in players)
         {
-            RaycastHit hit;
-            Physics.Raycast(this.transform.position, dist, out hit);
-            return hit.transform.tag == "Player";
+            // On récupère des informations sur le positionnement du joueur en fonction de où regarde le bot
+            Vector3 dist = (player.transform.position - this.transform.position);
+            float angle = (float)Math.Atan((dist.z / dist.x));
+            bool memeDirection = (direction == Direction.DROITE && dist.x > 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
+                (direction == Direction.HAUT && dist.z > 0 && Math.Abs(dist.x) < Math.Abs(dist.z)) ||
+                (direction == Direction.GAUCHE && dist.x < 0 && Math.Abs(dist.x) > Math.Abs(dist.z)) ||
+                (direction == Direction.BAS && dist.z < 0 && Math.Abs(dist.x) < Math.Abs(dist.z));
+
+            if (angle <= ConstantsGame.ANGLE / 2 && memeDirection)
+            {
+                // On lance un rayon pour voir si ca touche le joueur (sinon c'est qu'il y a un mur entre)
+                RaycastHit hit;
+                Physics.Raycast(this.transform.position, dist, out hit);
+                if (hit.transform.tag == "Player") return true;
+            }
         }
         return false;
     }
@@ -265,5 +270,23 @@ public class BotCelluloBehavior : AgentBehaviour
     {
         ConstantsGame.gameIsRunning = false;
         gameOverMenu.SetActive(true);
+    }
+
+    public void NewLevel()
+    {
+        isDrawed = false;
+        canBeDeplaced = false;
+
+        // set the colors of the Cellulo and the light
+        if (type == 0)
+        {
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+            lampeTorche.gameObject.SetActive(false);
+        }
+        else
+        {
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.red, 0);
+            lampeTorche.gameObject.SetActive(true);
+        }
     }
 }
