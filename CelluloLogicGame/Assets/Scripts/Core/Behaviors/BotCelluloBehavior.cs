@@ -210,7 +210,7 @@ public class BotCelluloBehavior : AgentBehaviour
                 // On lance un rayon pour voir si ca touche le joueur (sinon c'est qu'il y a un mur entre)
                 RaycastHit hit;
                 Physics.Raycast(this.transform.position, dist, out hit);
-                if (hit.transform.tag == "Player") return true;
+                if (hit.transform.CompareTag("Player")) return true;
             }
         }
         return false;

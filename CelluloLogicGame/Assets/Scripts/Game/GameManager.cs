@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -30,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     //Map Cellulo Manager
     public GameObject mapCelluloManager;
+
+    public int CurrentLevel { get => currentLevel; }
 
     // Start is called before the first frame update
     void Start()
