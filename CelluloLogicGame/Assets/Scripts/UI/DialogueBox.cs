@@ -43,6 +43,17 @@ public class DialogueBox : MonoBehaviour
             }
             
         }
+        if(gameManager.CurrentLevel == 2)
+        {
+            if (nextText < 1) nextText = 1;
+            if(nextText == 1)
+            {
+                if(Level2Dialog1())
+                {
+                    ReadNextText(true);
+                }
+            }
+        }
     }
 
     public void ReadNextText(bool isTrueTalking)
@@ -53,22 +64,24 @@ public class DialogueBox : MonoBehaviour
         {
             TrueBox.GetComponentInChildren<TextMeshProUGUI>().text = texts[nextText];
             TrueBox.SetActive(true);
+            ++nextText;
         } else
         {
+            ++nextText;
             FalseBox.GetComponentInChildren<TextMeshProUGUI>().text = texts[nextText];
             FalseBox.SetActive(true);
         }
+        ConstantsGame.gameIsRunning = false;
     }
 
     public void CloseDialogBox()
     {
-        print("je suis la2");
         if (!talking) return;
-        print("je suis la");
         talking = false;
         TrueBox.SetActive(false);
         FalseBox.SetActive(false);
         ++nextText;
+        ConstantsGame.gameIsRunning = true;
     }
 
     private (bool, string) Level1Dialog1()
@@ -88,5 +101,11 @@ public class DialogueBox : MonoBehaviour
             }
         }
         return (false, "");
+    }
+
+    private bool Level2Dialog1()
+    {
+        FilsBehavior fil = GameObject.Find("Fil23").GetComponent<FilsBehavior>();
+        return !fil.allume;
     }
 }
