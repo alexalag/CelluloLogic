@@ -8,12 +8,22 @@ public class NormalGateBehavior : MonoBehaviour
     public GameObject fil;
     public Animator animator;
     public Animator animator2;
-    public bool finalDoor;
+    public bool canBeOpen;
+    public bool canBeClosed;
     private AudioSource audioSource;
     private bool closed;
+
+    public bool startOpened;
+
     // Start is called before the first frame update
     void Start()
     {
+        if(startOpened)
+        {
+            print(fil.GetComponent<FilsBehavior>().allume);
+            animator.SetTrigger("Instant Open");
+            animator2.SetTrigger("Instant Open");
+        }
         closed = true;
         audioSource = GetComponent<AudioSource>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -25,16 +35,20 @@ public class NormalGateBehavior : MonoBehaviour
     void Update()
     {
         if (fil.GetComponent<FilsBehavior>().allume){
-            animator.ResetTrigger("Close Door");
-            animator2.ResetTrigger("Close Door");
-            animator.SetTrigger("Open Door");
-            animator2.SetTrigger("Open Door");
-            if(closed) {
-               audioSource.Play();
-               closed = false;
+            if(canBeOpen)
+            {
+                animator.ResetTrigger("Close Door");
+                animator2.ResetTrigger("Close Door");
+                animator.SetTrigger("Open Door");
+                animator2.SetTrigger("Open Door");
+                if(closed) {
+                    audioSource.Play();
+                    closed = false;
+                }
             }
+            
         } else {
-            if(!finalDoor) {
+            if(canBeClosed) {
                 animator.ResetTrigger("Open Door");
                 animator2.ResetTrigger("Open Door");
                 animator.SetTrigger("Close Door");
