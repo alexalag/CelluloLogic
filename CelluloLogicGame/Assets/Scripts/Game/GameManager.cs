@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
             players = GameObject.FindGameObjectsWithTag("Player");
             foreach(GameObject player in players)
             {
-                player.transform.Translate(-intervalInterLevel);
+                player.transform.Translate(new Vector3(0, 0, -28));
             }
             botBehavior.transform.Translate(-intervalInterLevel);
 

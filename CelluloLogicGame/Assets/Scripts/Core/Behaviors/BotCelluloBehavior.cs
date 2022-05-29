@@ -27,7 +27,9 @@ public class BotCelluloBehavior : AgentBehaviour
     public Direction direction;
     public GameObject gameOverMenu;
     private Light lampeTorche;
-    
+    public Animator trueAnimator;
+    public Animator falseAnimator;
+
     // Pour le unactiveCellulo
     private bool isDrawed;
     private GameObject playerThatDraw;
@@ -49,7 +51,17 @@ public class BotCelluloBehavior : AgentBehaviour
 
         //Unactive Cellulo
         if(type == BotType.unactiveCellulo) {
-            if(isDrawed && !Input.GetKey(KeyCode.Space)) {
+
+            //animation du bras
+            if(playerThatDraw.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True")
+            {
+                trueAnimator.SetBool("grab", isDrawed);
+            } else
+            {
+                falseAnimator.SetBool("grab", isDrawed);
+            }
+            
+            if (isDrawed && !Input.GetKey(KeyCode.Space)) {
                 DisplayHelpSignal(false);
                 isDrawed = false;
             } else if(!isDrawed && PlayerIsClosed(ConstantsGame.maxDistStartDrawingCellulo)) {

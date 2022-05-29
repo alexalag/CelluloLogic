@@ -57,7 +57,20 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } else {
             steering.linear = new Vector3(xAxis, 0, zAxis)*agent.maxAccel;
         }
-        
+
+        Vector3 direction = new Vector3(xAxis, 0, zAxis);
+        if(unactiveCellulo.type == 0 && unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject))
+        {
+            direction = unactiveCellulo.gameObject.transform.position - transform.position;
+        } 
+        if (direction != Vector3.zero)
+        {
+            print("ici");
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            transform.rotation =
+                Quaternion.RotateTowards(transform.rotation, targetRotation, 700 * Time.deltaTime);
+        }
+
         steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel));
         return steering;
     }
