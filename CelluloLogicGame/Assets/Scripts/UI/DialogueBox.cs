@@ -45,8 +45,8 @@ public class DialogueBox : MonoBehaviour
         }
         if(gameManager.CurrentLevel == 2)
         {
-            if (nextText < 1) nextText = 1;
-            if(nextText == 1)
+            if (nextText < 2) nextText = 2;
+            if(nextText == 2)
             {
                 if(Level2Dialog1())
                 {
