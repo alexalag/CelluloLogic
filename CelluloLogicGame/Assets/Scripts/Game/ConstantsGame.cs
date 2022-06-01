@@ -13,7 +13,7 @@ public class ConstantsGame : MonoBehaviour {
 
     //Gardian
     public const float minX = 32f;
-    public const float maxX = 53.3f;
+    public const float maxX = 51.3f;
     public const float minZ = -16.7f;
     public const float maxZ = -2.9f;
     public const float ANGLE = 48f;
