@@ -15,12 +15,16 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
     private bool onStone;
 
+    private GameManager gameManager;
+
     public void Start(){
         gameObject.tag = "Player";
         onStone = false;
-        
+
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
         // set the colors of the players
-        if(CelluloName == "True") {
+        if (CelluloName == "True") {
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
         } else {
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 0);
@@ -30,10 +34,23 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public void Update() {
         if((unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject))) {
             onStone = true;
+            print("on stone");
             agent.MoveOnStone();
         } else {
             onStone = false;
+            print("on ice");
             agent.MoveOnIce();
+        }
+
+        // set the colors of the players
+        if (CelluloName == "True")
+        {
+            print("ca marche");
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
+        }
+        else
+        {
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.blue, 0);
         }
     }
 
@@ -73,6 +90,18 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
 
         steering.linear = this.transform.parent.TransformDirection(Vector3.ClampMagnitude(steering.linear , agent.maxAccel));
         return steering;
+    }
+
+    public override void OnCelluloLongTouch(int key)
+    {
+        if (CelluloName == "True")
+        {
+            gameManager.longTruePressed();
+        }
+        else
+        {
+            gameManager.longFalsePressed();
+        }
     }
 
 }

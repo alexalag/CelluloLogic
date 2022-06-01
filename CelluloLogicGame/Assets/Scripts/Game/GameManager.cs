@@ -30,11 +30,18 @@ public class GameManager : MonoBehaviour
     //Map Cellulo Manager
     public GameObject mapCelluloManager;
 
+    //long touch
+    private bool longTrue;
+    private bool longFalse;
+    public GameObject startMenu;
+
     public int CurrentLevel { get => currentLevel; }
 
     // Start is called before the first frame update
     void Start()
     {
+        longTrue = false;
+        longFalse = false;
         currentLevel = 1;
         score = 0;
         level1posCamera = Camera.main.transform.position;
@@ -48,9 +55,19 @@ public class GameManager : MonoBehaviour
     {
         // la camera change de place toute seule à chaque level
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalInterLevel, speedCamera);
+        
+        // long press pour démarer le jeu
+        if(longTrue && longFalse && !ConstantsGame.gameIsRunning)
+        {
+            StartGame();
+            longFalse = false;
+            longTrue = false;
+        } 
     }
 
     public void StartGame() {
+        startMenu.SetActive(false);
+        pauseButton.SetActive(true);
         ConstantsGame.gameIsRunning = true;
     }
 
@@ -132,6 +149,16 @@ public class GameManager : MonoBehaviour
             ConstantsGame.gameIsRunning = true;
         }
 
+    }
+
+    public void longTruePressed()
+    {
+        longTrue = true;
+    }
+
+    public void longFalsePressed()
+    {
+        longFalse = true;
     }
 }
 

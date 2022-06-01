@@ -32,6 +32,7 @@ public class BotCelluloBehavior : AgentBehaviour
 
     // Pour le unactiveCellulo
     private bool isDrawed;
+    private bool isDrawedReal;
     private GameObject playerThatDraw;
     private bool canBeDeplaced;
     public GameObject HelpSignal;
@@ -43,6 +44,7 @@ public class BotCelluloBehavior : AgentBehaviour
         players = GameObject.FindGameObjectsWithTag("Player");
         playerThatDraw = players[0];
         lampeTorche = gameObject.GetComponentInChildren<Light>();
+        isDrawedReal = false;
 
         NewLevel();
     }
@@ -52,14 +54,28 @@ public class BotCelluloBehavior : AgentBehaviour
         //Unactive Cellulo
         if(type == BotType.unactiveCellulo) {
 
+            // set the colors of the bot
+            this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.black, 0);
+
             //animation du bras
-            if(playerThatDraw.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True")
+            if (playerThatDraw.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True")
             {
                 trueAnimator.SetBool("grab", isDrawed);
             } else
             {
                 falseAnimator.SetBool("grab", isDrawed);
             }
+
+            /*if(isDrawedReal && !longPressed)
+            {
+                isDrawedReal = false;
+            } else if(!isDrawedReal && PlayerIsClosed(ConstantsGame.maxDistStartDrawingCellulo))
+            {
+                if (longPressed)
+                {
+                    isDrawed = true;
+                }
+            }*/
             
             if (isDrawed && !Input.GetKey(KeyCode.Space)) {
                 DisplayHelpSignal(false);
