@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text endText;
     private int score;
+    private bool score_updated;
     public Timer timer;
     public GameObject menuLevelFinish;
     public GameObject pauseButton;
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     {
         longTrue = false;
         longFalse = false;
+        score_updated = false;
         currentLevel = 1;
         score = 0;
         level1posCamera = Camera.main.transform.position;
@@ -53,10 +55,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // la camera change de place toute seule à chaque level
+        // la camera change de place toute seule ï¿½ chaque level
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalInterLevel, speedCamera);
         
-        // long press pour démarer le jeu
+        // long press pour dï¿½marer le jeu
         if(longTrue && longFalse && !ConstantsGame.gameIsRunning)
         {
             StartGame();
@@ -81,10 +83,10 @@ public class GameManager : MonoBehaviour
         pauseButton.SetActive(false);
         
         if(timer.getTime() > timer.maxMinutes*60){
-            score = 0;
+            score += 0;
             endText.text = "You were too slow... Try again";
         } else {
-            score = updateScore();
+            score += updateScore();
             endText.text = "Well done...Level completed !";
         }
 
@@ -96,12 +98,19 @@ public class GameManager : MonoBehaviour
         float mult_factor;
         int levelScore;
         float levelTime;
-    
+
+        if(score_updated) return 0;
+
         switch(currentLevel){   // j'ai fait un case pour que ce soit plus facile de changer en fonction des niveaux
             case 1: 
                 mult_factor = 0.75f;
                 levelScore = ConstantsGame.level1Score;
                 levelTime = ConstantsGame.level1Time;
+                break;
+            case 2: 
+                mult_factor = 0.5f;
+                levelScore = ConstantsGame.level2Score;
+                levelTime = ConstantsGame.level2Time;
                 break;
             default:
                 mult_factor = 0;
@@ -109,7 +118,7 @@ public class GameManager : MonoBehaviour
                 levelTime = 0;
                 break;
         }
-        
+        score_updated = true;
         int malus = Mathf.Min(0, (int)((levelTime - timer.getTime())*mult_factor));
         return levelScore + malus;
     }
@@ -122,12 +131,13 @@ public class GameManager : MonoBehaviour
         if(currentLevel < levels.Count)
         {
             ++currentLevel;
+            score_updated = false;
 
-            // On désactive le level précédent et active le nouveau level
+            // On dï¿½sactive le level prï¿½cï¿½dent et active le nouveau level
             levels[currentLevel - 2].SetActive(false);
             levels[currentLevel - 1].SetActive(true);
 
-            // On met le bot à la bonne position et avec le bon type
+            // On met le bot ï¿½ la bonne position et avec le bon type
             botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1];
             botBehavior.type = botTypePerLevel[currentLevel - 1];
             botBehavior.NewLevel();
@@ -142,7 +152,7 @@ public class GameManager : MonoBehaviour
             }
             botBehavior.transform.Translate(-intervalInterLevel);
 
-            // On réinitialise le timer
+            // On rï¿½initialise le timer
             timer.InitTimer();
 
             // On relance le jeu

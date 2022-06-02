@@ -13053,9 +13053,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Eh False ! Regarde ! Le cellulo l\xE0 bas semble \xE9teint. Il semble
-    bloquer une plaque de pression. Peut \xEAtre qu'en le d\xE9pla\xE7ant, cela d\xE9clanchera
-    un m\xE9canisme ?"
+  m_text: Hey False ! Look! The cellulo over there seems to be off. It seems to block
+    a pressure plate. Maybe by moving it, it will trigger a mechanism ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}
   m_sharedMaterial: {fileID: -8056777718553808860, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}
@@ -20596,9 +20595,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Eh False ! Regarde ! Le cellulo l\xE0 bas semble\n\xE9teint. Il semble
-    bloquer une plaque de pression.\nPeut \xEAtre qu'en le d\xE9pla\xE7ant, cela
-    d\xE9clanchera un\n m\xE9canisme ?"
+  m_text: "Hey False ! Look at this! The cellulo there seems\noff. It seems to block
+    a pressure plate. Maybe by\nmoving it, it will trigger a\r mechanism?\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}
   m_sharedMaterial: {fileID: -8056777718553808860, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}

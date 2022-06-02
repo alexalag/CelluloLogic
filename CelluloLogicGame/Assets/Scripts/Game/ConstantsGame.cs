@@ -9,7 +9,10 @@ public class ConstantsGame : MonoBehaviour {
     public const float maxDistStartDrawingCellulo = 6f;
     public static bool gameIsRunning = false;
     public const int level1Score = 100;
+    public const int level2Score = 200;
     public const float level1Time = 120f;
+    public const float level2Time = 240f;
+
 
     //Gardian
     public const float minX = 32f;
