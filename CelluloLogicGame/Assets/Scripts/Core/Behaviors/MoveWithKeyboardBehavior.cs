@@ -34,18 +34,15 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public void Update() {
         if((unactiveCellulo.getIsDrawed() && unactiveCellulo.IsPlayerThatDraw(this.gameObject))) {
             onStone = true;
-            print("on stone");
             agent.MoveOnStone();
         } else {
             onStone = false;
-            print("on ice");
             agent.MoveOnIce();
         }
 
         // set the colors of the players
         if (CelluloName == "True")
         {
-            print("ca marche");
             this.agent.SetVisualEffect(VisualEffect.VisualEffectConstAll, Color.magenta, 0);
         }
         else
@@ -82,8 +79,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         } 
         if (direction != Vector3.zero)
         {
-            print("ici");
-            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+            Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z), Vector3.up);
             transform.rotation =
                 Quaternion.RotateTowards(transform.rotation, targetRotation, 700 * Time.deltaTime);
         }
