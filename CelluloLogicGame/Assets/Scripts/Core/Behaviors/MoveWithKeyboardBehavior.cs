@@ -14,6 +14,7 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
     public BotCelluloBehavior unactiveCellulo;
 
     private bool onStone;
+    private bool collisionBehavior;
 
     private GameManager gameManager;
 
@@ -98,6 +99,19 @@ public class MoveWithKeyboardBehavior : AgentBehaviour
         {
             gameManager.longFalsePressed();
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        agent.ActivateDirectionalHapticFeedback();
+        foreach (ContactPoint contact in collision.contacts)
+        GetSteering().linear = collision.contacts[0].normal.normalized*agent.maxAccel;
+        collisionBehavior = true; 
+    }
+
+    void OnCollisionExit(Collision collision){
+        agent.DeActivateDirectionalHapticFeedback();
+        collisionBehavior = false; 
     }
 
 }
