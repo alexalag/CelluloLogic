@@ -173,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!114 &5748230
 MonoBehaviour:
@@ -865,7 +864,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!114 &388863382
 MonoBehaviour:
@@ -1083,7 +1081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!114 &500829403
 MonoBehaviour:
@@ -1262,7 +1259,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Once upon a time, in Uniword, two cellulos named True and False were taken
-    prisoner by the evil NOMDUBOSS and forced to work in his factory \u201CInfernalGates\u201D.
+    prisoner by the evil JENKINS forced to work in his factory \u201CInfernalGates\u201D.
     \r\n\r\nMistreated and exploited by their boss, these two poor captive robots
     worked day and night in this gloomy factory in oder to satisfy the least of his
     demands.\r\n\r\nBut one day, True accidentally dropped his tool on the floor
@@ -1404,7 +1401,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!114 &967474373
 MonoBehaviour:
@@ -1838,7 +1834,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!114 &1340027171
 MonoBehaviour:
@@ -2105,7 +2100,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Once upon a time, in Uniword,\ntwo cellulos named True and \nFalse were
-    taken prisoner by\nthe evil NOMDUBOSS and forced\nto work in his factory\n\u201CInfernalGates\u201D.
+    taken prisoner by\nthe evil Jenkins and forced\nto work in his factory\n\u201CInfernalGates\u201D.
     \r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: aa6c1035b373a294dbcfd6f282d1586a, type: 2}
@@ -2195,7 +2190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d2870a3b144a9543b2e07e2006427d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentText: 
   audioSource: {fileID: 283559220}
 --- !u!1 &1792225080
 GameObject:
