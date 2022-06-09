@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -157,8 +158,32 @@ public class GameManager : MonoBehaviour
 
             // On relance le jeu
             ConstantsGame.gameIsRunning = true;
+            pauseButton.SetActive(true);
         }
 
+    }
+
+    public void RestartGame(){
+        
+        score_updated = false;
+        // On met le bot � la bonne position et avec le bon type
+            botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1 ];
+            botBehavior.type = botTypePerLevel[currentLevel - 1];
+        // On change la position de map Cellulo Manager pour pas que les cellulos sortent de la map
+            mapCelluloManager.transform.Translate(intervalInterLevel);
+            GameObject[] players;
+            players = GameObject.FindGameObjectsWithTag("Player");
+            foreach(GameObject player in players)
+            {
+                player.transform.Translate(new Vector3(0, 0, -28));
+            }
+            botBehavior.transform.Translate(-intervalInterLevel);
+
+            // On r�initialise le timer
+            timer.InitTimer();
+
+            // On relance le jeu
+            ConstantsGame.gameIsRunning = true;
     }
 
     public void longTruePressed()
@@ -169,6 +194,11 @@ public class GameManager : MonoBehaviour
     public void longFalsePressed()
     {
         longFalse = true;
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
     }
 }
 
