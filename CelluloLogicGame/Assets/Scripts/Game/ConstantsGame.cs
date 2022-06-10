@@ -8,6 +8,7 @@ public class ConstantsGame : MonoBehaviour {
     public const float maxDistDrawCellulo = 8f;
     public const float maxDistStartDrawingCellulo = 6f;
     public static bool gameIsRunning = false;
+    public static int currentLevel = 0;
     public const int level1Score = 100;
     public const int level2Score = 200;
     public const float level1Time = 120f;

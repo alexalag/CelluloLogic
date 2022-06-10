@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     public List<Vector3> startPosBotPerLevel;
     public List<BotCelluloBehavior.BotType> botTypePerLevel;
 
+    //Players
+    public List<Vector3> TruePosition;
+    public List<Vector3> FalsePosition;
+
     //Map Cellulo Manager
     public GameObject mapCelluloManager;
 
@@ -45,7 +49,11 @@ public class GameManager : MonoBehaviour
         longTrue = false;
         longFalse = false;
         score_updated = false;
-        currentLevel = 1;
+        currentLevel = ConstantsGame.currentLevel;
+        if(currentLevel == 0)
+        {
+            ++currentLevel;
+        }
         score = 0;
         level1posCamera = Camera.main.transform.position;
         // initialisation du bot
@@ -58,9 +66,12 @@ public class GameManager : MonoBehaviour
     {
         // la camera change de place toute seule � chaque level
         Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, level1posCamera + (currentLevel-1) * intervalInterLevel, speedCamera);
-        
+
+        // pour que le menu sache à quel niveau on est
+        ConstantsGame.currentLevel = currentLevel;
+
         // long press pour d�marer le jeu
-        if(longTrue && longFalse && !ConstantsGame.gameIsRunning)
+        if (longTrue && longFalse && !ConstantsGame.gameIsRunning)
         {
             StartGame();
             longFalse = false;
@@ -166,24 +177,32 @@ public class GameManager : MonoBehaviour
     public void RestartGame(){
         
         score_updated = false;
+
         // On met le bot � la bonne position et avec le bon type
-            botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1 ];
-            botBehavior.type = botTypePerLevel[currentLevel - 1];
-        // On change la position de map Cellulo Manager pour pas que les cellulos sortent de la map
-            mapCelluloManager.transform.Translate(intervalInterLevel);
-            GameObject[] players;
-            players = GameObject.FindGameObjectsWithTag("Player");
-            foreach(GameObject player in players)
+        botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1 ];
+        botBehavior.direction = BotCelluloBehavior.Direction.HAUT;
+        botBehavior.gameObject.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+
+        GameObject[] players;
+        players = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject player in players)
+        {
+            //Vector3 diff = new Vector3(0, 0, -28);
+            if(player.GetComponent<MoveWithKeyboardBehavior>().CelluloName == "True")
             {
-                player.transform.Translate(new Vector3(0, 0, -28));
+                player.transform.position = TruePosition[currentLevel - 1];
+            } else
+            {
+                player.transform.position = FalsePosition[currentLevel - 1];
             }
-            botBehavior.transform.Translate(-intervalInterLevel);
+            //player.transform.Translate(diff);
+        }
 
-            // On r�initialise le timer
-            timer.InitTimer();
+        // On r�initialise le timer
+        timer.InitTimer();
 
-            // On relance le jeu
-            ConstantsGame.gameIsRunning = true;
+        // On relance le jeu
+        ConstantsGame.gameIsRunning = true;
     }
 
     public void longTruePressed()
@@ -199,6 +218,20 @@ public class GameManager : MonoBehaviour
     public void BackToMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+    }
+
+    public void RestartLevel()
+    {
+        if( currentLevel >= 2)
+        {
+            levels[currentLevel - 2].SetActive(false);
+        }
+        levels[currentLevel - 1].SetActive(true);
+
+        // On met le bot à la bonne position et avec le bon type
+        botBehavior.gameObject.transform.position = startPosBotPerLevel[currentLevel - 1];
+        botBehavior.type = botTypePerLevel[currentLevel - 1];
+        botBehavior.NewLevel();
     }
 }
 
